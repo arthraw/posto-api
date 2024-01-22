@@ -1,5 +1,6 @@
 package com.example.plugins
 
+import com.example.models.dao.dao
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -12,7 +13,8 @@ fun Application.configureRouting() {
     install(Resources)
     routing {
         get("/") {
-            call.respondText("Hello World!")
+            val transactionsList = dao.getAllTransactions()
+            call.respondText("List of Transactions\n\n$transactionsList")
         }
         get<Articles> { article ->
             // Get all articles ...
