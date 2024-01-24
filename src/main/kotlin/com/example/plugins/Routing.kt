@@ -1,28 +1,34 @@
 package com.example.plugins
 
+import com.example.models.TransactionInsert
 import com.example.models.dao.dao
-import io.ktor.resources.*
+import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
-import io.ktor.server.resources.Resources
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.serialization.Serializable
 
 fun Application.configureRouting() {
     install(Resources)
     routing {
         get("/") {
-            val transactionsList = dao.getAllTransactions()
-            call.respondText("List of Transactions\n\n$transactionsList")
+            call.respondText("Not found")
         }
-        get<Articles> { article ->
-            // Get all articles ...
-            call.respond("List of articles sorted starting from ${article.sort}")
+        get("/Transactions") {
+            val transactionsList = dao.getAllTransactions()
+            call.respond(transactionsList)
+        }
+        post("/Transactions") { transaction ->
+            val receive = call.receive<TransactionInsert>()
+            dao.insertTransaction(
+                receive.transactionTypeId,
+                receive.cost,
+                receive.gas,
+                receive.timestamp
+            )
+            call.respondText("Transaction ok", status = HttpStatusCode.Created)
         }
     }
 }
 
-@Serializable
-@Resource("/articles")
-class Articles(val sort: String? = "new")

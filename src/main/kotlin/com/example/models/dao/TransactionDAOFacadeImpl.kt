@@ -3,7 +3,6 @@ package com.example.models.dao
 import com.example.models.DatabaseSingleton.dbQuery
 import com.example.models.Transaction
 import com.example.models.Transactions
-import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import java.time.LocalDate
@@ -55,12 +54,4 @@ class TransactionDAOFacadeImpl : TransactionDAOFacade {
 
 }
 
-val dao: TransactionDAOFacade = TransactionDAOFacadeImpl().apply {
-    runBlocking {
-        if(getAllTransactions().isEmpty()) {
-            insertTransaction(1, 80.00, 45.00, LocalDate.now())
-//            insertTransaction(3, 100.00, 65.00, LocalDate.now())
-
-        }
-    }
-}
+val dao: TransactionDAOFacade = TransactionDAOFacadeImpl()
