@@ -19,7 +19,7 @@ fun Application.configureRouting() {
             val transactionsList = dao.getAllTransactions()
             call.respond(transactionsList)
         }
-        post("/Transactions") { transaction ->
+        post("/Transactions") {
             val receive = call.receive<TransactionInsert>()
             dao.insertTransaction(
                 receive.transactionTypeId,
