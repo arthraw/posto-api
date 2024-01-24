@@ -10,6 +10,15 @@ plugins {
     kotlin("jvm") version "1.9.22"
     id("io.ktor.plugin") version "2.3.7"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
+    id ("org.flywaydb.flyway") version "8.5.4"
+
+}
+
+flyway {
+    url = System.getenv("jdbc:mysql://localhost:3306/posto")
+    user = System.getenv("java/DATABASE_USER")
+    password = System.getenv("java/DATABASE_PASSWORD")
+    baselineOnMigrate = true
 }
 
 group = "com.example"
@@ -36,11 +45,17 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
+
     // Exposed
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
+
+    // Flyway Migrations
+    implementation("org.flywaydb:flyway-mysql:9.0.0")
+    implementation("org.flywaydb:flyway-core:6.5.0")
+
     // Database
     implementation("mysql:mysql-connector-java:$mysql_version")
 
