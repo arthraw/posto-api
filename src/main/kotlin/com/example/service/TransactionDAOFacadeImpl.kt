@@ -1,8 +1,9 @@
-package com.example.models.dao
+package com.example.service
 
 import com.example.models.DatabaseSingleton.dbQuery
 import com.example.models.Transaction
 import com.example.models.Transactions
+import com.example.models.dao.TransactionDAOFacade
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import java.time.LocalDate
@@ -12,6 +13,7 @@ class TransactionDAOFacadeImpl : TransactionDAOFacade {
     private fun resultRowToTransaction(row: ResultRow) = Transaction(
         id = row[Transactions.id],
         transactionTypeId = row[Transactions.transactionTypesId],
+        transaction = row[Transactions.transactionType],
         cost = row[Transactions.cost],
         gas =  row[Transactions.gas],
         timestamp = row[Transactions.timestamp]
@@ -29,12 +31,14 @@ class TransactionDAOFacadeImpl : TransactionDAOFacade {
 
     override suspend fun insertTransaction(
         transactionType: Int,
+        transaction: String,
         cost: Double,
         gas: Double,
         timestamp: LocalDate
     ): Unit = dbQuery {
         val insertData  = Transactions.insert {
             it[transactionTypesId] = transactionType
+            it[Transactions.transactionType] = transaction
             it[Transactions.cost] = cost
             it[Transactions.gas] = gas
             it[Transactions.timestamp] = timestamp

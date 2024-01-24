@@ -17,6 +17,7 @@ data class Transaction(
     val id: Int = 0,
     @SerialName("transactionTypeId")
     val transactionTypeId: Int,
+    val transaction: String,
     val cost: Double,
     val gas : Double,
     @Serializable(with = LocalDateSerializer::class)
@@ -26,6 +27,7 @@ data class Transaction(
 data class TransactionInsert(
     @SerialName("transactionTypeId")
     val transactionTypeId: Int,
+    val transaction: String,
     val cost: Double,
     val gas : Double,
     @Serializable(with = LocalDateSerializer::class)
@@ -48,6 +50,7 @@ object LocalDateSerializer : KSerializer<LocalDate> {
 object Transactions : Table() {
     val id = integer("id").autoIncrement()
     val transactionTypesId = (integer("transaction_type_id").default(TransactionType().id))
+    val transactionType = varchar("transaction_type", 10).default(TransactionType().paymentName.first())
     val cost = double("cost")
     val gas = double("gas")
     val timestamp = date("transaction_date")
@@ -58,4 +61,5 @@ object Transactions : Table() {
 data class TransactionType(
     val payment: Map<Int, String> = mapOf<Int, String>(1 to "money", 2 to "debit", 3 to "credit", 4 to "pix"),
     val id: Int = payment.keys.first(),
+    val paymentName: List<String> = payment.values.filterIndexed { index, s -> index == id}
 )
