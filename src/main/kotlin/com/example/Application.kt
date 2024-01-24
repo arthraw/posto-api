@@ -3,7 +3,6 @@ package com.example
 import com.example.models.DatabaseSingleton
 import com.example.plugins.configureRouting
 import com.example.plugins.configureSecurity
-import com.example.plugins.configureSerialization
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -21,6 +20,5 @@ fun Application.module() {
     }
     DatabaseSingleton.init()
     configureSecurity()
-    configureSerialization()
     configureRouting()
 }
