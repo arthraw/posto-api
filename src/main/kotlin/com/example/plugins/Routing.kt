@@ -1,7 +1,7 @@
 package com.example.plugins
 
 import com.example.models.TransactionInsert
-import com.example.models.dao.dao
+import com.example.service.dao
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -23,6 +23,7 @@ fun Application.configureRouting() {
             val receive = call.receive<TransactionInsert>()
             dao.insertTransaction(
                 receive.transactionTypeId,
+                receive.transaction,
                 receive.cost,
                 receive.gas,
                 receive.timestamp
