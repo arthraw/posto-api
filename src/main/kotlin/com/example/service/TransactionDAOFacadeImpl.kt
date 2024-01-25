@@ -22,11 +22,10 @@ class TransactionDAOFacadeImpl : TransactionDAOFacade {
         Transactions.selectAll().map(::resultRowToTransaction)
     }
 
-    override suspend fun getTransactionById(id: Int): Transaction? = dbQuery {
+    override suspend fun getTransactionById(id: Int): List<Transaction?> = dbQuery {
         Transactions
             .select(Transactions.id eq id)
             .map(::resultRowToTransaction)
-            .singleOrNull()
     }
 
     override suspend fun insertTransaction(
