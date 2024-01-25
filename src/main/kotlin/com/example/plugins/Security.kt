@@ -8,7 +8,7 @@ import io.ktor.server.sessions.*
 fun Application.configureSecurity() {
     data class UserSession(val count: Int = 0)
     install(Sessions) {
-        cookie<UserSession>("MY_SESSION") {
+        cookie<UserSession>("USER_SESSION") {
             cookie.extensions["SameSite"] = "lax"
         }
     }
