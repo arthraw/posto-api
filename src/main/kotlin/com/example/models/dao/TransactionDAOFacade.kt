@@ -7,6 +7,6 @@ interface TransactionDAOFacade {
     suspend fun getAllTransactions() : List<Transaction>
     suspend fun getTransactionById(id : Int) : List<Transaction?>
     suspend fun insertTransaction(transactionType: Int, transaction: String, cost: Double, gas : Double, timestamp: LocalDate)
-    suspend fun updateTransaction(transactionId : Int, transactionType: Int)
+    suspend fun updateTransaction(transactionId : Int, transaction: String)
     suspend fun deleteTransaction(id: Int)
 }

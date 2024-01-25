@@ -45,9 +45,9 @@ class TransactionDAOFacadeImpl : TransactionDAOFacade {
         insertData.resultedValues?.singleOrNull()?.let(::resultRowToTransaction)
     }
 
-    override suspend fun updateTransaction(transactionId : Int, transactionType: Int): Unit = dbQuery {
+    override suspend fun updateTransaction(transactionId : Int, transaction: String): Unit = dbQuery {
         Transactions.update({ Transactions.id eq transactionId }) {
-            it[transactionTypesId] = transactionType
+            it[Transactions.transactionType] = transaction
         }
     }
 
